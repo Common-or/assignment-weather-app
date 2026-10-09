@@ -3,7 +3,7 @@ import { WeatherHero } from '../components/weather/WeatherHero'
 import { WeatherStats, WeatherSkeleton } from '../components/weather/WeatherStats'
 import { EmptyState, ErrorState } from '../components/weather/States'
 import { FavoritesBar } from '../components/weather/FavoritesBar'
-import { DoodleSky, FadeIn, SplitText } from '../components/effects/bits'
+import { DoodleSky, FadeIn } from '../components/effects/bits'
 import { normalizeCondition } from '../lib/weather'
 
 export function Dashboard({ weather }) {
@@ -14,11 +14,11 @@ export function Dashboard({ weather }) {
     <div className="relative">
       <section className="relative overflow-hidden border-b-[3px] border-[var(--border)] bg-[var(--bg-soft)]">
         <DoodleSky condition={condition} />
-        <div className="relative mx-auto max-w-6xl px-4 pt-10 pb-8 sm:px-6 sm:pt-14">
+        <div className="relative mx-auto max-w-6xl px-4 pt-12 pb-8 sm:px-6 sm:pt-16">
           <FadeIn>
             <p className="font-hand text-2xl text-[var(--text-2)]">✎ hello, sky explorer!</p>
-            <h1 className="font-display mt-1 text-4xl leading-[1.05] font-bold tracking-tight sm:text-6xl">
-              <SplitText text="What’s the sky" /> <br />
+            <h1 className="font-display mt-2 text-4xl leading-[1.12] font-bold tracking-tight text-balance sm:text-6xl">
+              What’s the sky <br />
               <span className="doodle-underline">drawing today?</span> 🎨
             </h1>
             <p className="mt-3 max-w-2xl text-[16px] font-semibold text-[var(--text-2)]">
@@ -55,8 +55,8 @@ export function Dashboard({ weather }) {
               <WeatherStats data={data} />
             </FadeIn>
             <FadeIn delay={140}>
-              <div className="doodle-card bg-[#f0fdf4] p-4 text-[14px] font-semibold text-[var(--text-2)]">
-                📍 <b className="text-[var(--text)]">{data.city}, {data.region ? `${data.region}, ` : ''}{data.country}</b>
+              <div className="doodle-card bg-[#f0fdf4] p-4 text-[14px] font-semibold text-[#1c1917]">
+                📍 <b>{data.city}, {data.region ? `${data.region}, ` : ''}{data.country}</b>
                 {data.lat != null && <> · {data.lat}, {data.lon}</>} · {data.timezone || 'local sky time'} · query “{data.rawQuery}”
                 <span className="font-hand ml-2 text-xl">— real API data, not hardcoded!</span>
               </div>

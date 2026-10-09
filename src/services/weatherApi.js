@@ -28,6 +28,9 @@ function mapApiError(payload) {
   if (code === 104) {
     return new WeatherApiError('Monthly request limit reached (free plan ≈ 100 calls). Wait or upgrade the key.', { kind: 'limit', code })
   }
+  if (code === 106) {
+    return new WeatherApiError('Too many drawings at once — the free plan is rate-limited. Wait about a minute, then retry.', { kind: 'limit', code })
+  }
   if (code === 105) {
     return new WeatherApiError('This free key only allows HTTP, but the app uses HTTPS. Upgrade the key or proxy the request.', { kind: 'https', code })
   }

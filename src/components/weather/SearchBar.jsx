@@ -81,7 +81,7 @@ export function SearchBar({ onSearch, onClear, onLocate, loading, geoStatus, his
               setValue(c)
               onSearch(c)
             }}
-            className="font-display rounded-full border-[2.5px] border-[var(--border)] bg-[#fff7ad] px-3 py-1 text-sm font-semibold shadow-[2px_2px_0_var(--border)] transition-transform hover:-translate-y-0.5 hover:rotate-1"
+            className="font-display rounded-full border-[2.5px] border-[#1c1917] bg-[#fff7ad] px-3 py-1 text-sm font-semibold text-[#1c1917] shadow-[2px_2px_0_#1c1917] transition-transform hover:-translate-y-0.5 hover:rotate-1"
           >
             {c}
           </button>

@@ -3,6 +3,8 @@ import { fetchCurrentWeather, WeatherApiError } from '../services/weatherApi'
 
 const HISTORY_KEY = 'zephyr-history'
 const FAVORITES_KEY = 'zephyr-favorites'
+const MIN_INTERVAL_MS = 1500
+const CACHE_TTL_MS = 5 * 60 * 1000
 
 function readJson(key, fallback) {
   try {
@@ -24,6 +26,8 @@ export function useWeather() {
   const [history, setHistory] = useState(() => readJson(HISTORY_KEY, []))
   const [favorites, setFavorites] = useState(() => readJson(FAVORITES_KEY, []))
   const abortRef = useRef(null)
+  const cacheRef = useRef(new Map()) // query -> { data, ts }
+  const lastCallRef = useRef(0)
 
   useEffect(() => {
     try {
@@ -45,6 +49,22 @@ export function useWeather() {
       setError(new WeatherApiError('Type a city first — we skip empty searches on purpose.', { kind: 'not-found' }))
       return
     }
+    const key = q.toLowerCase()
+    const now = Date.now()
+    const cached = cacheRef.current.get(key)
+    if (cached && now - cached.ts < CACHE_TTL_MS) {
+      setData(cached.data)
+      setLastQuery(q)
+      setError(null)
+      return
+    }
+    if (now - lastCallRef.current < MIN_INTERVAL_MS) {
+      setError(
+        new WeatherApiError('Whoa, speedy artist! Wait a second between drawings — the free sky is rate-limited.', { kind: 'limit' }),
+      )
+      return
+    }
+    lastCallRef.current = now
     abortRef.current?.abort()
     const controller = new AbortController()
     abortRef.current = controller
@@ -52,6 +72,7 @@ export function useWeather() {
     setError(null)
     try {
       const result = await fetchCurrentWeather(q, { signal: controller.signal })
+      cacheRef.current.set(key, { data: result, ts: Date.now() })
       setData(result)
       setLastQuery(q)
       setHistory((h) => {
