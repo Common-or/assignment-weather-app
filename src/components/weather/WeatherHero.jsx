@@ -1,4 +1,4 @@
-import { Cloud, CloudFog, CloudLightning, CloudRain, CloudSun, Droplets, Eye, Gauge, Heart, MapPin, Moon, Pencil, Snowflake, Sun, Wind } from 'lucide-react'
+import { Clock, Cloud, CloudFog, CloudLightning, CloudRain, CloudSun, Droplets, Eye, Gauge, Heart, MapPin, Moon, Pencil, Snowflake, Sun, Wind } from 'lucide-react'
 import { CONDITION_META, formatLocalTime, humanSummary, normalizeCondition } from '../../lib/weather'
 import { Badge } from '../ui/primitives'
 import { SkyScene } from './SkyScene'
@@ -110,7 +110,7 @@ function DoodleIcon({ condition }) {
     fog,
   }
   const art = drawings[c] || (night ? moon : cloud)
-  return <div className="h-24 w-24 shrink-0 sm:h-28 sm:w-28">{art}</div>
+  return <div className="h-[clamp(5rem,18vh,10rem)] w-[clamp(5rem,18vh,10rem)] shrink-0">{art}</div>
 }
 
 export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
@@ -123,68 +123,74 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
 
   return (
     <article
-      className="doodle-card relative overflow-hidden p-6 text-white sm:p-8"
-      style={{ background: `linear-gradient(135deg, ${c1}, ${c2} 55%, ${c3})`, borderColor: '#1c1917' }}
+      className="doodle-card relative h-full overflow-hidden bg-[#171321] p-4 text-white sm:p-5"
       aria-live="polite"
+      aria-label={`Current weather in ${data.city}, ${data.country}`}
     >
-      <div className="hero-grid-overlay absolute inset-0 opacity-30" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full opacity-50 blur-3xl"
+        style={{ background: `linear-gradient(135deg, ${c1}, ${c2})` }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full opacity-40 blur-3xl"
+        style={{ background: `linear-gradient(135deg, ${c2}, ${c3})` }}
+      />
       <SkyScene kind={kind} />
-      <div className="relative">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="relative flex h-full min-h-0 flex-col">
+        <div className="flex flex-wrap items-center gap-1.5">
           <Badge color="#fff" className="text-[#1c1917]">
             <MapPin size={13} /> {data.city} · {data.country}
           </Badge>
-          <Badge color="#fff7ad" className="text-[#1c1917]">🕒 {formatLocalTime(data.localtime)}</Badge>
+          <Badge color="#fff7ad" className="text-[#1c1917]">
+            <Clock size={13} /> {formatLocalTime(data.localtime)}
+          </Badge>
           <button
             onClick={onToggleFavorite}
             aria-pressed={!!isFavorite}
-            aria-label={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
-            className={`ml-auto inline-flex items-center gap-1 rounded-full border-[2.5px] border-black px-3 py-1 text-sm font-bold transition-transform hover:scale-105 ${
-              isFavorite ? 'bg-[#ff5d8f] text-white' : 'bg-white/90 text-black'
+            aria-label={isFavorite ? 'Remove from saved places' : 'Save to saved places'}
+            className={`ml-auto inline-flex min-h-[36px] items-center gap-1 rounded-full border-[2.5px] border-black px-3 py-1 text-sm font-bold transition-transform hover:scale-105 ${
+              isFavorite ? 'bg-[#ffc93c] text-black' : 'bg-white text-black'
             }`}
           >
             <Heart size={15} fill={isFavorite ? 'currentColor' : 'none'} /> {isFavorite ? 'saved!' : 'save'}
           </button>
         </div>
 
-        <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-center">
+        <div className="flex min-h-0 flex-1 items-center gap-4 sm:gap-6">
           <DoodleIcon condition={data} />
           <div className="min-w-0">
-            <div className="font-display text-[72px] leading-none font-bold tracking-tight drop-shadow-[3px_3px_0_rgba(0,0,0,0.9)] sm:text-[92px]">
+            <div className="font-display text-[clamp(3.5rem,15vh,6.5rem)] leading-none font-bold tracking-tight text-white">
               {data.temperature ?? '—'}
-              <span className="align-top text-3xl">°C</span>
+              <span className="align-top text-[0.35em]">°C</span>
             </div>
-            <p className="font-display mt-1 inline-flex items-center gap-2 text-xl font-semibold capitalize drop-shadow-[2px_2px_0_rgba(0,0,0,0.6)]">
-              <ConditionIcon size={22} strokeWidth={2.5} /> {data.description}
+            <p className="font-display mt-1 inline-flex items-center gap-2 text-lg font-semibold text-white capitalize sm:text-xl">
+              <ConditionIcon size={24} strokeWidth={2.5} /> {data.description}
             </p>
-            <p className="mt-1 text-[15px] font-bold text-white/95">feels like {data.feelslike ?? '—'}°C</p>
+            <p className="mt-0.5 text-sm font-bold text-white">feels like {data.feelslike ?? '—'}°C</p>
           </div>
-          <div className="flex flex-wrap gap-2 sm:ml-auto sm:max-w-[220px]">
-            <span className="rounded-2xl border-[2.5px] border-black/80 bg-white/20 px-3 py-1.5 text-[13px] font-bold backdrop-blur-sm">
-              <Droplets size={13} className="mr-1 inline" /> {data.humidity ?? '—'}%
-            </span>
-            <span className="rounded-2xl border-[2.5px] border-black/80 bg-white/20 px-3 py-1.5 text-[13px] font-bold backdrop-blur-sm">
-              <Wind size={13} className="mr-1 inline" /> {data.windSpeed ?? '—'} km/h {data.windDir}
-            </span>
-            <span className="rounded-2xl border-[2.5px] border-black/80 bg-white/20 px-3 py-1.5 text-[13px] font-bold backdrop-blur-sm">
-              <Gauge size={13} className="mr-1 inline" /> {data.pressure ?? '—'} mb
-            </span>
-            <span className="rounded-2xl border-[2.5px] border-black/80 bg-white/20 px-3 py-1.5 text-[13px] font-bold backdrop-blur-sm">
-              <Eye size={13} className="mr-1 inline" /> {data.visibility ?? '—'} km
-            </span>
-            <span className="rounded-2xl border-[2.5px] border-black/80 bg-white/20 px-3 py-1.5 text-[13px] font-bold backdrop-blur-sm">
-              <Sun size={13} className="mr-1 inline" /> UV {data.uv ?? '—'}
-            </span>
+          <div className="ml-auto hidden flex-col gap-1.5 md:flex">
+            {[
+              { icon: Droplets, text: `${data.humidity ?? '—'}% humidity` },
+              { icon: Wind, text: `${data.windSpeed ?? '—'} km/h ${data.windDir}` },
+              { icon: Gauge, text: `${data.pressure ?? '—'} mb` },
+              { icon: Eye, text: `${data.visibility ?? '—'} km` },
+            ].map(({ icon: Icon, text }) => (
+              <span
+                key={text}
+                className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/40 bg-black/55 px-3 py-1 text-[13px] font-bold whitespace-nowrap text-white"
+              >
+                <Icon size={14} /> {text}
+              </span>
+            ))}
           </div>
         </div>
 
         {summary && (
-          <p className="font-hand mt-4 inline-flex items-center gap-2 text-2xl text-white drop-shadow-[1px_1px_0_rgba(0,0,0,0.7)]">
-            <Pencil size={18} /> {summary}
+          <p className="hide-short font-hand mt-2 inline-flex w-fit items-center gap-2 rounded-2xl bg-black/45 px-3 py-1 text-xl text-white">
+            <Pencil size={16} /> {summary}
           </p>
-        )}
-        {data.icon && (
-          <img src={data.icon} alt="" aria-hidden className="absolute right-4 bottom-4 hidden h-12 w-12 rounded-full border-2 border-white/70 bg-white/30 opacity-90" />
         )}
       </div>
     </article>

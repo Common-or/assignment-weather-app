@@ -1,7 +1,7 @@
 import { cn } from '../../lib/utils'
 
 const variants = {
-  primary: 'bg-[#ff5d8f] text-white hover:bg-[#ff437e]',
+  primary: 'bg-[#ff5d8f] text-[#1c1917] hover:bg-[#ff437e]',
   sunny: 'bg-[#ffc93c] text-[#1c1917] hover:bg-[#ffb703]',
   sky: 'bg-[#7dd3fc] text-[#0c4a6e] hover:bg-[#38bdf8]',
   grass: 'bg-[#4ade80] text-[#052e16] hover:bg-[#22c55e]',

@@ -1,4 +1,4 @@
-# Zephyr — Doodle Sky · Weather Intelligence Dashboard
+# Meteo Doodle — Weather Intelligence Dashboard
 
 A hand-drawn weather app with a sketch-style interface. Geolocate yourself or search any city, and get **real live weather** from Weatherstack — wrapped in inked cards and doodle illustrations.
 
@@ -78,13 +78,13 @@ The app reads `VITE_WEATHER_API_KEY` at build time, so no code change is needed 
 ```
 src/
   components/
-    layout/Chrome.jsx        Header + Footer
+    layout/Chrome.jsx        Header
     weather/
-      SearchBar.jsx          input + geo + quick cities + history
-      WeatherHero.jsx        big doodle hero
-      WeatherStats.jsx       sticker grid + skeleton
+      SearchBar.jsx          input + geo + quick cities + history + saved
+      WeatherHero.jsx        chalkboard hero + sky scene
+      WeatherStats.jsx       mini grid + skeleton
       States.jsx             EmptyState + ErrorState
-      FavoritesBar.jsx       saved places
+      SkyScene.jsx           per-condition drawn backdrop
     ui/
       button.jsx             doodle buttons
       primitives.jsx         Input, Card, Badge, Skeleton, Alert

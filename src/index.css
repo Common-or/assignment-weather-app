@@ -24,7 +24,7 @@
   --border-strong: #0d1117;
   --text: #1c1917;
   --text-2: #57534e;
-  --text-3: #a8a29e;
+  --text-3: #6f675c;
   --accent: #ff5d8f;
   --accent-2: #0ea5e9;
   --sun: #ffc93c;
@@ -42,7 +42,7 @@
   --border-strong: #f5f3ff;
   --text: #faf5ff;
   --text-2: #c4b5fd;
-  --text-3: #8b7bb8;
+  --text-3: #9d92c4;
   --accent: #ff8fab;
   --accent-2: #22d3ee;
   --sun: #fde047;
@@ -53,6 +53,28 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+#root {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Unscrollable single-viewport page: hide secondary rows on short screens */
+@media (max-height: 740px) {
+  .hide-short {
+    display: none !important;
+  }
 }
 
 body {

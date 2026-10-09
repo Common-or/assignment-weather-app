@@ -6,18 +6,18 @@ import { Button } from '../ui/button'
 export function EmptyState({ onLocate, geoStatus }) {
   return (
     <Card className="relative overflow-hidden bg-[#fffbe6] text-center text-[#1c1917]">
-      <div className="mx-auto max-w-md py-6">
-        <div className="mx-auto grid h-24 w-24 animate-[float-slow_4s_ease-in-out_infinite] place-items-center rounded-full border-[3px] border-dashed border-[#a8a29e] bg-white text-[#1c1917]">
-          <Map size={44} />
+      <div className="mx-auto max-w-md py-3 sm:py-4">
+        <div className="mx-auto grid h-16 w-16 animate-[float-slow_4s_ease-in-out_infinite] place-items-center rounded-full border-[3px] border-dashed border-[#a8a29e] bg-white text-[#1c1917]">
+          <Map size={32} />
         </div>
-        <h2 className="font-display mt-4 text-3xl font-bold">Draw me some weather!</h2>
-        <p className="font-hand mt-1 text-2xl text-[#57534e]">geolocate yourself, or doodle a city name above</p>
-        <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
+        <h2 className="font-display mt-3 text-2xl font-bold sm:text-3xl">Draw me some weather!</h2>
+        <p className="font-hand mt-1 text-xl text-[#57534e]">geolocate yourself, or doodle a city name above</p>
+        <div className="mt-4 flex flex-col justify-center gap-2 sm:flex-row">
           <Button variant="sky" onClick={onLocate} disabled={geoStatus === 'locating'}>
             <Satellite size={18} /> {geoStatus === 'locating' ? 'Finding you…' : 'Use my location'}
           </Button>
         </div>
-        <p className="mt-4 text-[13px] font-semibold text-[#78716c]">No fake data here — every drawing comes from the real Weatherstack API.</p>
+        <p className="hide-short mt-3 text-[13px] font-semibold text-[#78716c]">No fake data here — every drawing comes from the real Weatherstack API.</p>
       </div>
     </Card>
   )

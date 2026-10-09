@@ -2,41 +2,39 @@ import { SearchBar } from '../components/weather/SearchBar'
 import { WeatherHero } from '../components/weather/WeatherHero'
 import { WeatherStats, WeatherSkeleton } from '../components/weather/WeatherStats'
 import { EmptyState, ErrorState } from '../components/weather/States'
-import { FavoritesBar } from '../components/weather/FavoritesBar'
 import { DoodleSky, FadeIn } from '../components/effects/bits'
 import { normalizeCondition } from '../lib/weather'
-import { KeyRound, MapPin, Palette, Pencil } from 'lucide-react'
+import { KeyRound } from 'lucide-react'
 
 export function Dashboard({ weather }) {
   const { data, loading, error, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, clearFavorites, keySource, saveBrowserKey, forgetBrowserKey } = weather
   const condition = data ? normalizeCondition(data.description, data.isDay) : 'partly'
 
   return (
-    <div className="relative">
-      <section className="relative overflow-hidden border-b-[3px] border-[var(--border)] bg-[var(--bg-soft)]">
+    <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-2.5 px-3 pt-2.5 sm:gap-3 sm:px-6 sm:pt-3">
+      <h1 className="sr-only">Meteo Doodle — weather intelligence dashboard</h1>
+
+      <section aria-label="Search for a city" className="relative shrink-0 overflow-hidden rounded-[28px]">
         <DoodleSky condition={condition} />
-        <div className="relative mx-auto max-w-6xl px-4 pt-12 pb-8 sm:px-6 sm:pt-16">
-          <FadeIn>
-            <p className="font-hand inline-flex items-center gap-1.5 text-2xl text-[var(--text-2)]"><Pencil size={18} /> hello, sky explorer!</p>
-            <h1 className="font-display mt-2 text-4xl leading-[1.12] font-bold tracking-tight text-balance sm:text-6xl">
-              What’s the sky <br />
-              <span className="doodle-underline">drawing today?</span>{' '}
-              <Palette size={40} className="inline-block -mt-2" />
-            </h1>
-            <p className="mt-3 max-w-2xl text-[16px] font-semibold text-[var(--text-2)]">
-              A hand-drawn weather dashboard — geolocate yourself or search any city, and we fetch the <b>real live sky</b> from Weatherstack. No fake
-              numbers, only clean lines.
-            </p>
-          </FadeIn>
-          <FadeIn delay={120} className="mt-6">
-            <div className="doodle-card bg-[var(--surface)] p-4 sm:p-5">
-              <SearchBar onSearch={search} onClear={clear} onLocate={locate} loading={loading} geoStatus={geoStatus} history={history} />
-            </div>
-          </FadeIn>
+        <div className="doodle-card relative bg-[var(--surface)] p-3 sm:p-3.5">
+          <p className="font-display text-base font-bold sm:text-lg">What&rsquo;s the sky drawing today?</p>
+          <div className="mt-1.5">
+            <SearchBar
+              onSearch={search}
+              onClear={clear}
+              onLocate={locate}
+              loading={loading}
+              geoStatus={geoStatus}
+              history={history}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              onClearFavorites={clearFavorites}
+            />
+          </div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl space-y-5 px-4 pt-6 sm:px-6">
+      <div className="flex min-h-0 flex-1 flex-col justify-center overflow-hidden">
         {loading && <WeatherSkeleton />}
         {!loading && error && (
           <FadeIn>
@@ -49,35 +47,26 @@ export function Dashboard({ weather }) {
           </FadeIn>
         )}
         {!loading && !error && data && (
-          <>
-            <FadeIn>
-              <WeatherHero data={data} isFavorite={isFavorite} onToggleFavorite={() => toggleFavorite()} />
-            </FadeIn>
-            <FadeIn delay={80}>
-              <WeatherStats data={data} />
-            </FadeIn>
-            <FadeIn delay={140}>
-              <div className="doodle-card bg-[#f0fdf4] p-4 text-[14px] font-semibold text-[#1c1917]">
-                <MapPin size={15} className="mr-1 inline-block -mt-0.5" />
-                <b>{data.city}, {data.region ? `${data.region}, ` : ''}{data.country}</b>
-                {data.lat != null && <> · {data.lat}, {data.lon}</>} · {data.timezone || 'local sky time'} · query “{data.rawQuery}”
-                <span className="font-hand ml-2 text-xl">— real API data, not hardcoded!</span>
-              </div>
-            </FadeIn>
-          </>
+          <FadeIn className="flex min-h-0 flex-1 flex-col">
+            <WeatherHero data={data} isFavorite={isFavorite} onToggleFavorite={() => toggleFavorite()} />
+          </FadeIn>
         )}
-        <FadeIn delay={60}>
-          <FavoritesBar favorites={favorites} onSelect={search} onToggle={toggleFavorite} onClear={clearFavorites} />
-        </FadeIn>
-        {keySource === 'browser' && (
-          <p className="inline-flex items-center justify-center gap-1.5 text-center text-[13px] font-bold text-[var(--text-3)]">
-            <KeyRound size={14} /> using a browser-pasted key for this device ·{' '}
-            <button onClick={forgetBrowserKey} className="underline underline-offset-2 hover:text-[var(--text)]">
-              forget it
-            </button>
-          </p>
-        )}
-      </main>
+      </div>
+
+      {!loading && !error && data && (
+        <section aria-label="Statistics" className="shrink-0 pb-2.5 sm:pb-3">
+          <WeatherStats data={data} />
+        </section>
+      )}
+
+      {keySource === 'browser' && (
+        <p className="inline-flex shrink-0 items-center justify-center gap-1.5 pb-1 text-center text-xs font-bold text-[var(--text-3)]">
+          <KeyRound size={13} /> browser-pasted key in use ·{' '}
+          <button onClick={forgetBrowserKey} className="underline underline-offset-2 hover:text-[var(--text)]">
+            forget it
+          </button>
+        </p>
+      )}
     </div>
   )
 }
