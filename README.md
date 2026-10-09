@@ -64,6 +64,15 @@ VITE_WEATHER_API_KEY=paste_your_key_here
 4. `.env` is git-ignored. Only `.env.example` (empty variable) is committed. If a key leaks, rotate it in the dashboard.
 5. No `.env` at hand (e.g. the Vercel deployment)? The app also offers a key field in the error card — pasting there stores it in that browser's local storage only, never in git.
 
+## Deploy on Vercel (clean way)
+
+The app reads `VITE_WEATHER_API_KEY` at build time, so no code change is needed — just add the variable to the Vercel project:
+
+1. Vercel dashboard → your project → **Settings → Environment Variables**
+2. Add `VITE_WEATHER_API_KEY` = your Weatherstack key, tick **Production** (and Preview if you test previews)
+3. **Deployments → ⋯ → Redeploy** the latest deployment (env vars only apply to new builds — Vite inlines them)
+4. Search a city — live data, no per-browser pasting needed
+
 ## Project structure
 
 ```
