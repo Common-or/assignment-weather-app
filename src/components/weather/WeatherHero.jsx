@@ -4,39 +4,93 @@ import { Badge } from '../ui/primitives'
 
 function DoodleIcon({ condition }) {
   const c = normalizeCondition(condition?.description, condition?.isDay)
+  const night = c.includes('night')
+  const sun = (
+    <svg viewBox="0 0 100 100" className="h-full w-full animate-[spin_24s_linear_infinite]">
+      <circle cx="50" cy="50" r="20" fill="#ffc93c" stroke="#1c1917" strokeWidth="4" />
+      {Array.from({ length: 8 }).map((_, i) => {
+        const a = (i * Math.PI) / 4
+        const x1 = 50 + Math.cos(a) * 28
+        const y1 = 50 + Math.sin(a) * 28
+        const x2 = 50 + Math.cos(a) * 40
+        const y2 = 50 + Math.sin(a) * 40
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#1c1917" strokeWidth="5" strokeLinecap="round" />
+      })}
+    </svg>
+  )
+  const moon = (
+    <svg viewBox="0 0 100 100" className="h-full w-full animate-[float-slow_5s_ease-in-out_infinite]">
+      <path d="M62 10 A42 42 0 1 0 90 68 A34 34 0 0 1 62 10 Z" fill="#fde047" stroke="#1c1917" strokeWidth="4" strokeLinejoin="round" />
+      <circle cx="28" cy="30" r="3" fill="#1c1917" />
+      <circle cx="40" cy="70" r="2.5" fill="#1c1917" />
+      <circle cx="78" cy="24" r="2.5" fill="#fff" stroke="#1c1917" strokeWidth="2" />
+    </svg>
+  )
+  const cloud = (
+    <svg viewBox="0 0 100 70" className="h-full w-full">
+      <ellipse cx="38" cy="40" rx="24" ry="16" fill="#fff" stroke="#1c1917" strokeWidth="4" />
+      <ellipse cx="62" cy="34" rx="26" ry="18" fill="#e0f2fe" stroke="#1c1917" strokeWidth="4" />
+    </svg>
+  )
+  const partly = (
+    <svg viewBox="0 0 100 90" className="h-full w-full">
+      <circle cx="34" cy="30" r="16" fill="#ffc93c" stroke="#1c1917" strokeWidth="4" />
+      <ellipse cx="58" cy="60" rx="28" ry="17" fill="#fff" stroke="#1c1917" strokeWidth="4" />
+    </svg>
+  )
+  const rain = (
+    <svg viewBox="0 0 100 80" className="h-full w-full">
+      <ellipse cx="50" cy="30" rx="30" ry="18" fill={night ? '#334155' : '#fff'} stroke="#1c1917" strokeWidth="4" />
+      {[30, 45, 60].map((x) => (
+        <g key={x} stroke="#0ea5e9" strokeWidth="5" strokeLinecap="round">
+          <line x1={x} y1={52} x2={x - 6} y2={68} />
+        </g>
+      ))}
+    </svg>
+  )
+  const storm = (
+    <svg viewBox="0 0 100 90" className="h-full w-full">
+      <ellipse cx="50" cy="28" rx="30" ry="18" fill="#312e81" stroke="#1c1917" strokeWidth="4" />
+      <path d="M54 48 L40 70 L52 70 L44 86 L66 62 L54 62 Z" fill="#fde047" stroke="#1c1917" strokeWidth="3" strokeLinejoin="round" />
+    </svg>
+  )
+  const snow = (
+    <svg viewBox="0 0 100 80" className="h-full w-full">
+      <ellipse cx="50" cy="28" rx="30" ry="17" fill="#fff" stroke="#1c1917" strokeWidth="4" />
+      {[[32, 56], [50, 62], [68, 56]].map(([x, y]) => (
+        <text key={x} x={x} y={y} fontSize="16" textAnchor="middle">❄</text>
+      ))}
+    </svg>
+  )
+  const fog = (
+    <svg viewBox="0 0 100 70" className="h-full w-full">
+      <ellipse cx="50" cy="24" rx="28" ry="15" fill="#e7e5e4" stroke="#1c1917" strokeWidth="4" />
+      {[40, 52, 62].map((y) => (
+        <line key={y} x1="18" y1={y} x2="82" y2={y - 4} stroke="#78716c" strokeWidth="4" strokeLinecap="round" strokeDasharray="2 7" />
+      ))}
+    </svg>
+  )
   const drawings = {
-    sunny: (
-      <svg viewBox="0 0 100 100" className="h-full w-full animate-[spin_24s_linear_infinite]">
-        <circle cx="50" cy="50" r="20" fill="#ffc93c" stroke="#1c1917" strokeWidth="4" />
-        {Array.from({ length: 8 }).map((_, i) => {
-          const a = (i * Math.PI) / 4
-          const x1 = 50 + Math.cos(a) * 28
-          const y1 = 50 + Math.sin(a) * 28
-          const x2 = 50 + Math.cos(a) * 40
-          const y2 = 50 + Math.sin(a) * 40
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#1c1917" strokeWidth="5" strokeLinecap="round" />
-        })}
+    sunny: sun,
+    'clear-night': moon,
+    partly,
+    'partly-night': (
+      <svg viewBox="0 0 100 90" className="h-full w-full">
+        <path d="M52 6 A30 30 0 1 0 74 50 A24 24 0 0 1 52 6 Z" fill="#fde047" stroke="#1c1917" strokeWidth="4" strokeLinejoin="round" />
+        <ellipse cx="60" cy="62" rx="26" ry="16" fill="#cbd5e1" stroke="#1c1917" strokeWidth="4" />
       </svg>
     ),
-    rain: (
-      <svg viewBox="0 0 100 80" className="h-full w-full">
-        <ellipse cx="50" cy="30" rx="30" ry="18" fill="#fff" stroke="#1c1917" strokeWidth="4" />
-        {[30, 45, 60].map((x) => (
-          <g key={x} stroke="#0ea5e9" strokeWidth="5" strokeLinecap="round">
-            <line x1={x} y1={52} x2={x - 6} y2={68} />
-          </g>
-        ))}
-      </svg>
-    ),
-    cloudy: (
-      <svg viewBox="0 0 100 70" className="h-full w-full">
-        <ellipse cx="38" cy="40" rx="24" ry="16" fill="#fff" stroke="#1c1917" strokeWidth="4" />
-        <ellipse cx="62" cy="34" rx="26" ry="18" fill="#e0f2fe" stroke="#1c1917" strokeWidth="4" />
-      </svg>
-    ),
+    cloudy: cloud,
+    'cloudy-night': cloud,
+    rain,
+    'rain-night': rain,
+    storm,
+    'storm-night': storm,
+    snow,
+    fog,
   }
-  const art = drawings[c] || drawings.cloudy
-  return <div className="h-24 w-24 sm:h-28 sm:w-28">{art}</div>
+  const art = drawings[c] || (night ? moon : cloud)
+  return <div className="h-24 w-24 shrink-0 sm:h-28 sm:w-28">{art}</div>
 }
 
 export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
@@ -55,10 +109,10 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
       <div className="hero-grid-overlay absolute inset-0 opacity-30" />
       <div className="relative">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge color="#fff">
+          <Badge color="#fff" className="text-[#1c1917]">
             <MapPin size={13} /> {data.city} · {data.country}
           </Badge>
-          <Badge color="#fff7ad">🕒 {formatLocalTime(data.localtime)}</Badge>
+          <Badge color="#fff7ad" className="text-[#1c1917]">🕒 {formatLocalTime(data.localtime)}</Badge>
           <button
             onClick={onToggleFavorite}
             aria-pressed={!!isFavorite}

@@ -1,17 +1,18 @@
 import { CloudRainWind, Droplets, Eye, Gauge, Sun, Thermometer, Wind } from 'lucide-react'
-import { uvLabel, windCompass } from '../../lib/weather'
+import { uvLabel } from '../../lib/weather'
 
 function Stat({ icon, label, value, sub, bg, rotate = '' }) {
+  // Pastel sticker backgrounds are always light → fixed dark ink in both themes (WCAG AA).
   return (
-    <div className={`doodle-card p-4 ${rotate}`} style={{ background: bg }}>
+    <div className={`doodle-card p-4 text-[#1c1917] ${rotate}`} style={{ background: bg }}>
       <div className="flex items-center gap-2.5">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border-[2.5px] border-[var(--border)] bg-white text-xl shadow-[2px_2px_0_var(--border)]">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border-[2.5px] border-[#1c1917] bg-white text-xl text-[#1c1917] shadow-[2px_2px_0_#1c1917]">
           {icon}
         </span>
         <div className="min-w-0">
-          <p className="text-[11px] font-extrabold tracking-[0.12em] text-[var(--text-2)] uppercase">{label}</p>
-          <p className="font-display truncate text-xl font-bold">{value}</p>
-          {sub && <p className="truncate text-[13px] font-semibold text-[var(--text-2)]">{sub}</p>}
+          <p className="text-[11px] font-extrabold tracking-[0.12em] text-[#44403c] uppercase">{label}</p>
+          <p className="font-display truncate text-xl font-bold text-[#1c1917]">{value}</p>
+          {sub && <p className="truncate text-[13px] font-semibold text-[#57534e]">{sub}</p>}
         </div>
       </div>
     </div>
@@ -23,7 +24,7 @@ export function WeatherStats({ data }) {
   const stats = [
     { icon: <Thermometer size={20} />, label: 'Feels like', value: data.feelslike != null ? `${data.feelslike}°C` : '—', sub: `real ${data.temperature}°C`, bg: '#ffe4e6', rotate: '-rotate-1' },
     { icon: <Droplets size={20} />, label: 'Humidity', value: data.humidity != null ? `${data.humidity}%` : '—', sub: data.humidity >= 80 ? 'sticky crayons' : 'comfy air', bg: '#e0f2fe', rotate: 'rotate-1' },
-    { icon: <Wind size={20} />, label: 'Wind', value: data.windSpeed != null ? `${data.windSpeed} km/h` : '—', sub: `${data.windDir} · ${windCompass(data.windDegree)}`, bg: '#dcfce7', rotate: '-rotate-1' },
+    { icon: <Wind size={20} />, label: 'Wind', value: data.windSpeed != null ? `${data.windSpeed} km/h` : '—', sub: data.windDegree != null ? `from ${data.windDir} · ${data.windDegree}°` : `from ${data.windDir}`, bg: '#dcfce7', rotate: '-rotate-1' },
     { icon: <Gauge size={20} />, label: 'Pressure', value: data.pressure != null ? `${data.pressure} mb` : '—', sub: 'sky weight', bg: '#fef3c7', rotate: 'rotate-1' },
     { icon: <Eye size={20} />, label: 'Visibility', value: data.visibility != null ? `${data.visibility} km` : '—', sub: data.visibility >= 10 ? 'see far!' : 'foggy drawing', bg: '#f3e8ff', rotate: '-rotate-1' },
     { icon: <Sun size={20} />, label: 'UV index', value: data.uv != null ? `${data.uv} · ${uvLabel(data.uv)}` : '—', sub: 'sun power', bg: '#fff7ad', rotate: 'rotate-1' },
