@@ -26,8 +26,8 @@ export function SearchBar({ onSearch, onClear, onLocate, loading, geoStatus, his
     <div className="w-full">
       <form onSubmit={submit} role="search" aria-label="Search weather by city" className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <span aria-hidden className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-xl">
-            🔎
+          <span aria-hidden className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-[var(--text-3)]">
+            <Search size={19} />
           </span>
           <Input
             ref={inputRef}
@@ -71,7 +71,7 @@ export function SearchBar({ onSearch, onClear, onLocate, loading, geoStatus, his
           </Button>
         </div>
       </form>
-      <p className="font-hand mt-2 text-xl text-[var(--text-2)]">Enter ↵ to search · Esc to erase · 📍 to geolocate you</p>
+      <p className="font-hand mt-2 inline-flex items-center gap-1.5 text-xl text-[var(--text-2)]">Enter ↵ to search · Esc to erase · <Crosshair size={16} /> to geolocate you</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {QUICK.map((c) => (
           <button

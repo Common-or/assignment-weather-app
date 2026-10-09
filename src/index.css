@@ -70,7 +70,7 @@ body {
 .font-hand { font-family: var(--font-hand); }
 
 @layer components {
-  /* Childish wobbly sticker card — lives in components layer so Tailwind bg-* utilities can override it */
+  /* Hand-drawn wobbly card — lives in components layer so Tailwind bg-* utilities can override it */
   .doodle-card {
     background: var(--surface);
     border: 3px solid var(--border);

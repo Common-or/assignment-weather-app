@@ -1,4 +1,4 @@
-import { Heart, Trash2 } from 'lucide-react'
+import { Heart, Star, Trash2 } from 'lucide-react'
 
 export function FavoritesBar({ favorites = [], onSelect, onToggle, onClear }) {
   if (!favorites.length) return null
@@ -8,7 +8,7 @@ export function FavoritesBar({ favorites = [], onSelect, onToggle, onClear }) {
         <span className="grid h-9 w-9 place-items-center rounded-full border-[2.5px] border-[#1c1917] bg-[#ff5d8f] text-white">
           <Heart size={16} fill="currentColor" />
         </span>
-        <h2 className="font-display text-lg font-bold">my sticker album</h2>
+        <h2 className="font-display text-lg font-bold">saved places</h2>
         <button onClick={onClear} className="ml-auto inline-flex items-center gap-1 text-[13px] font-bold text-[#57534e] hover:text-black">
           <Trash2 size={14} /> clear
         </button>
@@ -21,7 +21,7 @@ export function FavoritesBar({ favorites = [], onSelect, onToggle, onClear }) {
             title={`Show ${f}`}
             className="group inline-flex items-center gap-1.5 rounded-full border-[2.5px] border-[#1c1917] bg-white px-3 py-1.5 text-sm font-bold text-[#1c1917] shadow-[2px_2px_0_#1c1917] transition-transform hover:-translate-y-0.5 hover:rotate-1"
           >
-            ⭐ {f}
+            <Star size={14} fill="currentColor" className="text-[#eab308]" /> {f}
             <span
               role="button"
               tabIndex={0}

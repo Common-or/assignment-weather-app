@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Cloud, CloudSun, Moon, Pencil, Sparkles } from 'lucide-react'
 
 // React Bits–style: scroll reveal wrapper (respects prefers-reduced-motion via CSS)
 export function FadeIn({ children, delay = 0, className = '', y = 14 }) {
@@ -60,12 +61,14 @@ export function DoodleSky({ condition = 'partly' }) {
       <div className="aurora-blob h-64 w-64 bg-[#ff8fab]/50" style={{ left: '38%', top: '22%', animationDelay: '-11s' }} />
       <div className="hero-grid-overlay absolute inset-0 opacity-60" />
       {/* doodle stars / clouds */}
-      <span className="absolute top-[18%] left-[8%] animate-[float-slow_5s_ease-in-out_infinite] text-3xl">{isNight ? '✨' : '☁️'}</span>
-      <span className="absolute top-[12%] right-[12%] animate-[float-slow_6s_ease-in-out_infinite] text-2xl" style={{ animationDelay: '-2s' }}>
-        {isNight ? '🌙' : '🌤️'}
+      <span className="absolute top-[18%] left-[8%] animate-[float-slow_5s_ease-in-out_infinite] text-[var(--text-3)]">
+        {isNight ? <Sparkles size={30} /> : <Cloud size={32} />}
       </span>
-      <span className="absolute bottom-[18%] left-[14%] hidden animate-[wiggle_3s_ease-in-out_infinite] font-hand text-2xl text-[var(--text-3)] sm:block">
-        drawn with love ✎
+      <span className="absolute top-[12%] right-[12%] animate-[float-slow_6s_ease-in-out_infinite] text-[var(--text-3)]" style={{ animationDelay: '-2s' }}>
+        {isNight ? <Moon size={26} /> : <CloudSun size={28} />}
+      </span>
+      <span className="absolute bottom-[18%] left-[14%] hidden animate-[wiggle_3s_ease-in-out_infinite] font-hand text-2xl text-[var(--text-3)] sm:inline-flex sm:items-center sm:gap-1.5">
+        drawn with love <Pencil size={16} />
       </span>
       <svg className="absolute bottom-[8%] right-[6%] w-28 opacity-70" viewBox="0 0 120 40" fill="none">
         <path d="M4 26 Q 22 8 40 24 T 76 24 T 116 22" stroke="var(--text-3)" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 8" />

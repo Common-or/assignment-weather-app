@@ -5,6 +5,7 @@ import { EmptyState, ErrorState } from '../components/weather/States'
 import { FavoritesBar } from '../components/weather/FavoritesBar'
 import { DoodleSky, FadeIn } from '../components/effects/bits'
 import { normalizeCondition } from '../lib/weather'
+import { KeyRound, MapPin, Palette, Pencil } from 'lucide-react'
 
 export function Dashboard({ weather }) {
   const { data, loading, error, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, clearFavorites, keySource, saveBrowserKey, forgetBrowserKey } = weather
@@ -16,14 +17,15 @@ export function Dashboard({ weather }) {
         <DoodleSky condition={condition} />
         <div className="relative mx-auto max-w-6xl px-4 pt-12 pb-8 sm:px-6 sm:pt-16">
           <FadeIn>
-            <p className="font-hand text-2xl text-[var(--text-2)]">✎ hello, sky explorer!</p>
+            <p className="font-hand inline-flex items-center gap-1.5 text-2xl text-[var(--text-2)]"><Pencil size={18} /> hello, sky explorer!</p>
             <h1 className="font-display mt-2 text-4xl leading-[1.12] font-bold tracking-tight text-balance sm:text-6xl">
               What’s the sky <br />
-              <span className="doodle-underline">drawing today?</span> 🎨
+              <span className="doodle-underline">drawing today?</span>{' '}
+              <Palette size={40} className="inline-block -mt-2" />
             </h1>
             <p className="mt-3 max-w-2xl text-[16px] font-semibold text-[var(--text-2)]">
-              A fancy childish weather dashboard — geolocate yourself or search any city, and we fetch the <b>real live sky</b> from Weatherstack. No fake
-              numbers, only crayons.
+              A hand-drawn weather dashboard — geolocate yourself or search any city, and we fetch the <b>real live sky</b> from Weatherstack. No fake
+              numbers, only clean lines.
             </p>
           </FadeIn>
           <FadeIn delay={120} className="mt-6">
@@ -56,7 +58,8 @@ export function Dashboard({ weather }) {
             </FadeIn>
             <FadeIn delay={140}>
               <div className="doodle-card bg-[#f0fdf4] p-4 text-[14px] font-semibold text-[#1c1917]">
-                📍 <b>{data.city}, {data.region ? `${data.region}, ` : ''}{data.country}</b>
+                <MapPin size={15} className="mr-1 inline-block -mt-0.5" />
+                <b>{data.city}, {data.region ? `${data.region}, ` : ''}{data.country}</b>
                 {data.lat != null && <> · {data.lat}, {data.lon}</>} · {data.timezone || 'local sky time'} · query “{data.rawQuery}”
                 <span className="font-hand ml-2 text-xl">— real API data, not hardcoded!</span>
               </div>
@@ -67,8 +70,8 @@ export function Dashboard({ weather }) {
           <FavoritesBar favorites={favorites} onSelect={search} onToggle={toggleFavorite} onClear={clearFavorites} />
         </FadeIn>
         {keySource === 'browser' && (
-          <p className="text-center text-[13px] font-bold text-[var(--text-3)]">
-            🔑 using a browser-pasted key for this device ·{' '}
+          <p className="inline-flex items-center justify-center gap-1.5 text-center text-[13px] font-bold text-[var(--text-3)]">
+            <KeyRound size={14} /> using a browser-pasted key for this device ·{' '}
             <button onClick={forgetBrowserKey} className="underline underline-offset-2 hover:text-[var(--text)]">
               forget it
             </button>

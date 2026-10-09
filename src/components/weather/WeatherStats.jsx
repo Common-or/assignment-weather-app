@@ -1,4 +1,4 @@
-import { CloudRainWind, Droplets, Eye, Gauge, Sun, Thermometer, Wind } from 'lucide-react'
+import { CloudRain, CloudRainWind, Droplets, Eye, Gauge, Palette, Sun, Thermometer, Wind } from 'lucide-react'
 import { uvLabel } from '../../lib/weather'
 
 function Stat({ icon, label, value, sub, bg, rotate = '' }) {
@@ -29,7 +29,7 @@ export function WeatherStats({ data }) {
     { icon: <Eye size={20} />, label: 'Visibility', value: data.visibility != null ? `${data.visibility} km` : '—', sub: data.visibility >= 10 ? 'see far!' : 'foggy drawing', bg: '#f3e8ff', rotate: '-rotate-1' },
     { icon: <Sun size={20} />, label: 'UV index', value: data.uv != null ? `${data.uv} · ${uvLabel(data.uv)}` : '—', sub: 'sun power', bg: '#fff7ad', rotate: 'rotate-1' },
     { icon: <CloudRainWind size={20} />, label: 'Clouds', value: data.cloudcover != null ? `${data.cloudcover}%` : '—', sub: 'sky doodles', bg: '#e0e7ff', rotate: '-rotate-1' },
-    { icon: <span>🌧️</span>, label: 'Precip', value: data.precip != null ? `${data.precip} mm` : '—', sub: 'rain drops', bg: '#cffafe', rotate: 'rotate-1' },
+    { icon: <CloudRain size={20} />, label: 'Precip', value: data.precip != null ? `${data.precip} mm` : '—', sub: 'rain drops', bg: '#cffafe', rotate: 'rotate-1' },
   ]
   return (
     <section aria-label="Weather statistics" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -49,7 +49,7 @@ export function WeatherSkeleton() {
           <div key={i} className="doodle-card skeleton-shimmer h-28" style={{ animationDelay: `${i * 90}ms` }} />
         ))}
       </div>
-      <p className="font-hand text-center text-2xl text-[var(--text-2)]">colouring the sky… 🎨</p>
+      <p className="font-hand inline-flex items-center justify-center gap-2 text-center text-2xl text-[var(--text-2)]">colouring the sky… <Palette size={20} /></p>
     </div>
   )
 }

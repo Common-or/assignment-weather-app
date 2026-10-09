@@ -1,6 +1,6 @@
-# Zephyr ✎ Doodle Sky — Weather Intelligence Dashboard
+# Zephyr — Doodle Sky · Weather Intelligence Dashboard
 
-A fancy, childish hand-drawn weather app. Geolocate yourself or search any city, and get **real live weather** from Weatherstack — wrapped in crayons, stickers and wobbly doodle cards.
+A hand-drawn weather app with a sketch-style interface. Geolocate yourself or search any city, and get **real live weather** from Weatherstack — wrapped in inked cards and doodle illustrations.
 
 > Portfolio goal: would I proudly show this GitHub to a company? Yes — clean code, real API, thoughtful loading/error/empty states, responsive day/night doodles.
 
@@ -10,7 +10,7 @@ A fancy, childish hand-drawn weather app. Geolocate yourself or search any city,
 - 📍 **Geolocation** — “Use my location” button (with graceful denial handling), queries Weatherstack with `lat,lon`
 - 🌈 **Hero doodle card** — city + country, huge temperature anchor, condition + hand-drawn SVG sun/clouds/rain, local date/time, human summary (“sweater weather…”), feels-like + quick chips
 - 🧩 **Stats stickers** — reusable cards for Feels like, Humidity, Wind (+compass), Pressure, Visibility, UV (+label), Cloud cover, Precip — each with icon and crayon background
-- ⭐ **Sticker album (favorites)** — save places to localStorage, one-tap reload, remove, clear
+- ⭐ **Saved places (favorites)** — save places to localStorage, one-tap reload, remove, clear
 - ↺ **Recent doodles** — last 8 searches as quick-access chips (localStorage)
 - 🌓 **Day / Night doodles** — persisted theme (localStorage), OS preference on first visit, no flash on reload, toggle in header
 - 📱 **Responsive** — dashboard grid on desktop, adapted tablet, single-column big-temp + 44px touch targets on mobile
@@ -84,7 +84,7 @@ src/
       WeatherHero.jsx        big doodle hero
       WeatherStats.jsx       sticker grid + skeleton
       States.jsx             EmptyState + ErrorState
-      FavoritesBar.jsx       sticker album
+      FavoritesBar.jsx       saved places
     ui/
       button.jsx             doodle buttons
       primitives.jsx         Input, Card, Badge, Skeleton, Alert

@@ -1,6 +1,22 @@
-import { Droplets, Eye, Gauge, Heart, MapPin, Sun, Wind } from 'lucide-react'
+import { Cloud, CloudFog, CloudLightning, CloudRain, CloudSun, Droplets, Eye, Gauge, Heart, MapPin, Moon, Pencil, Snowflake, Sun, Wind } from 'lucide-react'
 import { CONDITION_META, formatLocalTime, humanSummary, normalizeCondition } from '../../lib/weather'
 import { Badge } from '../ui/primitives'
+import { SkyScene } from './SkyScene'
+
+const CONDITION_ICONS = {
+  sunny: Sun,
+  'clear-night': Moon,
+  partly: CloudSun,
+  'partly-night': Cloud,
+  cloudy: Cloud,
+  'cloudy-night': Cloud,
+  rain: CloudRain,
+  'rain-night': CloudRain,
+  storm: CloudLightning,
+  'storm-night': CloudLightning,
+  snow: Snowflake,
+  fog: CloudFog,
+}
 
 function DoodleIcon({ condition }) {
   const c = normalizeCondition(condition?.description, condition?.isDay)
@@ -57,8 +73,12 @@ function DoodleIcon({ condition }) {
   const snow = (
     <svg viewBox="0 0 100 80" className="h-full w-full">
       <ellipse cx="50" cy="28" rx="30" ry="17" fill="#fff" stroke="#1c1917" strokeWidth="4" />
-      {[[32, 56], [50, 62], [68, 56]].map(([x, y]) => (
-        <text key={x} x={x} y={y} fontSize="16" textAnchor="middle">❄</text>
+      {[[32, 58], [50, 64], [68, 58]].map(([x, y]) => (
+        <g key={x} transform={`translate(${x} ${y})`} stroke="#0ea5e9" strokeWidth="3" strokeLinecap="round">
+          {[0, 60, 120].map((r) => (
+            <line key={r} x1="-6" y1="0" x2="6" y2="0" transform={`rotate(${r})`} />
+          ))}
+        </g>
       ))}
     </svg>
   )
@@ -99,6 +119,7 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
   const meta = CONDITION_META[kind] || CONDITION_META.partly
   const [c1, c2, c3] = meta.hero
   const summary = humanSummary(data)
+  const ConditionIcon = CONDITION_ICONS[kind] || Cloud
 
   return (
     <article
@@ -107,6 +128,7 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
       aria-live="polite"
     >
       <div className="hero-grid-overlay absolute inset-0 opacity-30" />
+      <SkyScene kind={kind} />
       <div className="relative">
         <div className="flex flex-wrap items-center gap-2">
           <Badge color="#fff" className="text-[#1c1917]">
@@ -132,8 +154,8 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
               {data.temperature ?? '—'}
               <span className="align-top text-3xl">°C</span>
             </div>
-            <p className="font-display mt-1 text-xl font-semibold capitalize drop-shadow-[2px_2px_0_rgba(0,0,0,0.6)]">
-              {meta.emoji} {data.description}
+            <p className="font-display mt-1 inline-flex items-center gap-2 text-xl font-semibold capitalize drop-shadow-[2px_2px_0_rgba(0,0,0,0.6)]">
+              <ConditionIcon size={22} strokeWidth={2.5} /> {data.description}
             </p>
             <p className="mt-1 text-[15px] font-bold text-white/95">feels like {data.feelslike ?? '—'}°C</p>
           </div>
@@ -156,7 +178,11 @@ export function WeatherHero({ data, isFavorite, onToggleFavorite }) {
           </div>
         </div>
 
-        {summary && <p className="font-hand mt-4 text-2xl text-white drop-shadow-[1px_1px_0_rgba(0,0,0,0.7)]">✎ {summary}</p>}
+        {summary && (
+          <p className="font-hand mt-4 inline-flex items-center gap-2 text-2xl text-white drop-shadow-[1px_1px_0_rgba(0,0,0,0.7)]">
+            <Pencil size={18} /> {summary}
+          </p>
+        )}
         {data.icon && (
           <img src={data.icon} alt="" aria-hidden className="absolute right-4 bottom-4 hidden h-12 w-12 rounded-full border-2 border-white/70 bg-white/30 opacity-90" />
         )}

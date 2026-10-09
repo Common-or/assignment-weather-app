@@ -15,18 +15,18 @@ export function normalizeCondition(description = '', isDay = 'yes') {
 }
 
 export const CONDITION_META = {
-  sunny: { emoji: '☀️', label: 'Sunny doodle', hero: ['#fbbf24', '#f97316', '#f43f5e'] },
-  'clear-night': { emoji: '🌙', label: 'Clear night', hero: ['#1e1b4b', '#4c1d95', '#0ea5e9'] },
-  partly: { emoji: '⛅', label: 'Partly cloudy', hero: ['#38bdf8', '#818cf8', '#fbbf24'] },
-  'partly-night': { emoji: '☁️', label: 'Partly night', hero: ['#1e293b', '#475569', '#818cf8'] },
-  cloudy: { emoji: '☁️', label: 'Cloudy', hero: ['#64748b', '#94a3b8', '#38bdf8'] },
-  'cloudy-night': { emoji: '☁️', label: 'Cloudy night', hero: ['#0f172a', '#334155', '#64748b'] },
-  rain: { emoji: '🌧️', label: 'Rainy', hero: ['#0ea5e9', '#2563eb', '#1e40af'] },
-  'rain-night': { emoji: '🌧️', label: 'Rainy night', hero: ['#0c4a6e', '#1e3a8a', '#0f172a'] },
-  storm: { emoji: '⛈️', label: 'Stormy', hero: ['#7c3aed', '#4c1d95', '#1e1b4b'] },
-  'storm-night': { emoji: '⛈️', label: 'Stormy night', hero: ['#1e1b4b', '#312e81', '#0f172a'] },
-  snow: { emoji: '❄️', label: 'Snowy', hero: ['#7dd3fc', '#bae6fd', '#f0f9ff'] },
-  fog: { emoji: '🌫️', label: 'Foggy', hero: ['#a8a29e', '#d6d3d1', '#e7e5e4'] },
+  sunny: { label: 'Sunny doodle', hero: ['#fbbf24', '#f97316', '#f43f5e'] },
+  'clear-night': { label: 'Clear night', hero: ['#1e1b4b', '#4c1d95', '#0ea5e9'] },
+  partly: { label: 'Partly cloudy', hero: ['#38bdf8', '#818cf8', '#fbbf24'] },
+  'partly-night': { label: 'Partly night', hero: ['#1e293b', '#475569', '#818cf8'] },
+  cloudy: { label: 'Cloudy', hero: ['#64748b', '#94a3b8', '#38bdf8'] },
+  'cloudy-night': { label: 'Cloudy night', hero: ['#0f172a', '#334155', '#64748b'] },
+  rain: { label: 'Rainy', hero: ['#0ea5e9', '#2563eb', '#1e40af'] },
+  'rain-night': { label: 'Rainy night', hero: ['#0c4a6e', '#1e3a8a', '#0f172a'] },
+  storm: { label: 'Stormy', hero: ['#7c3aed', '#4c1d95', '#1e1b4b'] },
+  'storm-night': { label: 'Stormy night', hero: ['#1e1b4b', '#312e81', '#0f172a'] },
+  snow: { label: 'Snowy', hero: ['#7dd3fc', '#bae6fd', '#f0f9ff'] },
+  fog: { label: 'Foggy', hero: ['#a8a29e', '#d6d3d1', '#e7e5e4'] },
 }
 
 export function humanSummary(data) {

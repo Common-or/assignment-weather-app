@@ -1,4 +1,4 @@
-import { CloudSun, Moon, Sun } from 'lucide-react'
+import { CloudSun, Moon, Pencil, Sun } from 'lucide-react'
 import { Button } from '../ui/button'
 
 export function Header({ theme, onToggleTheme }) {
@@ -14,12 +14,16 @@ export function Header({ theme, onToggleTheme }) {
             <p className="font-display text-xl leading-none font-bold tracking-tight">
               Zephyr <span className="font-hand text-[var(--text-2)]">doodle sky</span>
             </p>
-            <p className="text-[11px] font-extrabold tracking-[0.18em] text-[var(--text-3)] uppercase">weather intelligence · kids edition</p>
+            <p className="text-[11px] font-extrabold tracking-[0.18em] text-[var(--text-3)] uppercase">weather intelligence dashboard</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <span aria-hidden className="font-hand hidden text-xl text-[var(--text-3)] sm:block">
-            {dark ? 'night doodles 🌙' : 'day doodles ☀️'}
+          <span aria-hidden className="font-hand hidden items-center gap-1.5 text-xl text-[var(--text-3)] sm:inline-flex">
+            {dark ? (
+              <>night doodles <Moon size={16} /></>
+            ) : (
+              <>day doodles <Sun size={16} /></>
+            )}
           </span>
           <Button variant="paper" size="icon" onClick={onToggleTheme} aria-label={dark ? 'Switch to day mode' : 'Switch to night mode'} title="Toggle day / night">
             {dark ? <Sun size={19} /> : <Moon size={19} />}
@@ -33,7 +37,7 @@ export function Header({ theme, onToggleTheme }) {
 export function Footer() {
   return (
     <footer className="mt-12 border-t-[3px] border-dashed border-[var(--text-3)] py-8 text-center">
-      <p className="font-hand text-2xl text-[var(--text-2)]">drawn with crayons, powered by Weatherstack ✎</p>
+      <p className="font-hand inline-flex items-center gap-2 text-2xl text-[var(--text-2)]">drawn with crayons, powered by Weatherstack <Pencil size={18} /></p>
       <p className="mt-1 text-[13px] font-bold text-[var(--text-3)]">
         React · Vite · Tailwind · shadcn/ui doodled · React Bits sparkles · Fetch + Hooks
       </p>
