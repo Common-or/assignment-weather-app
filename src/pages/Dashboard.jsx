@@ -7,7 +7,7 @@ import { DoodleSky, FadeIn } from '../components/effects/bits'
 import { normalizeCondition } from '../lib/weather'
 
 export function Dashboard({ weather }) {
-  const { data, loading, error, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, clearFavorites } = weather
+  const { data, loading, error, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, clearFavorites, keySource, saveBrowserKey, forgetBrowserKey } = weather
   const condition = data ? normalizeCondition(data.description, data.isDay) : 'partly'
 
   return (
@@ -38,7 +38,7 @@ export function Dashboard({ weather }) {
         {loading && <WeatherSkeleton />}
         {!loading && error && (
           <FadeIn>
-            <ErrorState error={error} onRetry={retry} onClear={clear} />
+            <ErrorState error={error} onRetry={retry} onClear={clear} onSaveKey={saveBrowserKey} />
           </FadeIn>
         )}
         {!loading && !error && !data && (
@@ -66,6 +66,14 @@ export function Dashboard({ weather }) {
         <FadeIn delay={60}>
           <FavoritesBar favorites={favorites} onSelect={search} onToggle={toggleFavorite} onClear={clearFavorites} />
         </FadeIn>
+        {keySource === 'browser' && (
+          <p className="text-center text-[13px] font-bold text-[var(--text-3)]">
+            🔑 using a browser-pasted key for this device ·{' '}
+            <button onClick={forgetBrowserKey} className="underline underline-offset-2 hover:text-[var(--text)]">
+              forget it
+            </button>
+          </p>
+        )}
       </main>
     </div>
   )

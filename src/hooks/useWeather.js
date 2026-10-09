@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchCurrentWeather, WeatherApiError } from '../services/weatherApi'
+import { clearBrowserKey, fetchCurrentWeather, getKeySource, setBrowserKey, WeatherApiError } from '../services/weatherApi'
 
 const HISTORY_KEY = 'zephyr-history'
 const FAVORITES_KEY = 'zephyr-favorites'
@@ -25,6 +25,7 @@ export function useWeather() {
   const [geoStatus, setGeoStatus] = useState('idle') // idle | locating | denied | done
   const [history, setHistory] = useState(() => readJson(HISTORY_KEY, []))
   const [favorites, setFavorites] = useState(() => readJson(FAVORITES_KEY, []))
+  const [keySource, setKeySource] = useState(() => getKeySource())
   const abortRef = useRef(null)
   const cacheRef = useRef(new Map()) // query -> { data, ts }
   const lastCallRef = useRef(0)
@@ -144,5 +145,21 @@ export function useWeather() {
   const clearFavorites = useCallback(() => setFavorites([]), [])
   const clearHistory = useCallback(() => setHistory([]), [])
 
-  return { data, loading, error, lastQuery, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, setHistory, clearFavorites, clearHistory }
+  const saveBrowserKey = useCallback(
+    (key) => {
+      setBrowserKey(key) // throws on empty / blocked storage
+      setKeySource(getKeySource())
+      setError(null)
+      if (lastQuery) search(lastQuery)
+    },
+    [lastQuery, search],
+  )
+
+  const forgetBrowserKey = useCallback(() => {
+    clearBrowserKey()
+    setKeySource(getKeySource())
+    clear()
+  }, [clear])
+
+  return { data, loading, error, lastQuery, search, clear, retry, locate, geoStatus, history, favorites, toggleFavorite, isFavorite, setHistory, clearFavorites, clearHistory, keySource, saveBrowserKey, forgetBrowserKey, refreshKeySource: () => setKeySource(getKeySource()) }
 }

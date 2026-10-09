@@ -62,6 +62,7 @@ VITE_WEATHER_API_KEY=paste_your_key_here
 
 3. Restart `npm run dev` after editing `.env`
 4. `.env` is git-ignored. Only `.env.example` (empty variable) is committed. If a key leaks, rotate it in the dashboard.
+5. No `.env` at hand (e.g. the Vercel deployment)? The app also offers a key field in the error card — pasting there stores it in that browser's local storage only, never in git.
 
 ## Project structure
 

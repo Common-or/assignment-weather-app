@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { AlertTriangle, Ghost, KeyRound, Satellite, WifiOff } from 'lucide-react'
 import { Alert, Card } from '../ui/primitives'
 import { Button } from '../ui/button'
@@ -22,8 +23,20 @@ export function EmptyState({ onLocate, geoStatus }) {
   )
 }
 
-export function ErrorState({ error, onRetry, onClear }) {
+export function ErrorState({ error, onRetry, onClear, onSaveKey }) {
   const kind = error?.kind || 'api'
+  const [draftKey, setDraftKey] = useState('')
+  const [keyError, setKeyError] = useState(null)
+  const saveKey = (e) => {
+    e?.preventDefault()
+    setKeyError(null)
+    try {
+      onSaveKey?.(draftKey)
+      setDraftKey('')
+    } catch (err) {
+      setKeyError(err?.message || 'Could not save that key.')
+    }
+  }
   const icons = {
     'missing-key': <KeyRound size={22} />,
     'not-found': <Ghost size={22} />,
@@ -48,10 +61,30 @@ export function ErrorState({ error, onRetry, onClear }) {
           <p className="font-display text-lg font-bold">{titles[kind] || titles.api}</p>
           <p className="mt-0.5 font-semibold">{error?.message || 'Something went wrong. Try again.'}</p>
           {kind === 'missing-key' && (
-            <p className="mt-1 text-[13px]">
-              Add <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">VITE_WEATHER_API_KEY</code> to <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">.env</code>, then restart{' '}
-              <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">npm run dev</code>.
-            </p>
+            <div className="mt-2">
+              <p className="text-[13px]">
+                Add <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">VITE_WEATHER_API_KEY</code> to <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">.env</code>, then restart{' '}
+                <code className="rounded bg-black/10 px-1.5 py-0.5 font-mono">npm run dev</code>.
+              </p>
+              {onSaveKey && (
+                <form onSubmit={saveKey} className="mt-3 flex flex-col gap-2 sm:flex-row">
+                  <input
+                    type="password"
+                    value={draftKey}
+                    onChange={(e) => setDraftKey(e.target.value)}
+                    placeholder="…or paste a key for this browser"
+                    aria-label="Paste a Weatherstack API key for this browser"
+                    autoComplete="off"
+                    className="h-11 min-h-[44px] flex-1 rounded-xl border-[2.5px] border-black bg-white px-3 font-mono text-sm text-black outline-none placeholder:font-sans placeholder:font-semibold placeholder:text-black/40 focus:shadow-[0_0_0_3px_var(--sky)]"
+                  />
+                  <Button type="submit" variant="dark" size="sm" className="min-h-[44px]">
+                    <KeyRound size={16} /> Use key
+                  </Button>
+                </form>
+              )}
+              {keyError && <p className="mt-1 text-[13px] font-bold">{keyError}</p>}
+              <p className="mt-1 text-[12px] font-semibold opacity-70">Browser keys stay in this device's local storage — never in git.</p>
+            </div>
           )}
         </div>
       </Alert>

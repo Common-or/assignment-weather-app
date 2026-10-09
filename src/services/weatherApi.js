@@ -4,7 +4,38 @@
 const BASE_URL = 'https://api.weatherstack.com/current'
 
 function getApiKey() {
-  return import.meta.env.VITE_WEATHER_API_KEY?.trim() || ''
+  const envKey = import.meta.env.VITE_WEATHER_API_KEY?.trim() || ''
+  if (envKey) return envKey
+  // Runtime fallback: key pasted in the UI for this browser only (never committed).
+  try {
+    return localStorage.getItem('zephyr-api-key')?.trim() || ''
+  } catch {
+    return ''
+  }
+}
+
+export function getKeySource() {
+  try {
+    if (import.meta.env.VITE_WEATHER_API_KEY?.trim()) return 'env'
+    if (localStorage.getItem('zephyr-api-key')?.trim()) return 'browser'
+  } catch {}
+  return null
+}
+
+export function setBrowserKey(key) {
+  const k = String(key || '').trim()
+  if (!k) throw new Error('Paste a key first.')
+  try {
+    localStorage.setItem('zephyr-api-key', k)
+  } catch {
+    throw new Error('This browser blocked local storage.')
+  }
+}
+
+export function clearBrowserKey() {
+  try {
+    localStorage.removeItem('zephyr-api-key')
+  } catch {}
 }
 
 export class WeatherApiError extends Error {
@@ -73,7 +104,7 @@ export function normalizePayload(payload) {
 export async function fetchCurrentWeather(query, { signal } = {}) {
   const key = getApiKey()
   if (!key) {
-    throw new WeatherApiError('Missing API key. Add VITE_WEATHER_API_KEY to your .env file.', { kind: 'missing-key' })
+    throw new WeatherApiError('Missing API key. Add VITE_WEATHER_API_KEY to your .env file, or paste a key below for this browser.', { kind: 'missing-key' })
   }
   const q = String(query || '').trim()
   if (!q) {
