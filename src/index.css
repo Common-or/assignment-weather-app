@@ -3,40 +3,51 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Nunito", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fredoka", "Nunito", sans-serif;
+  --font-hand: "Caveat", cursive;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --animate-aurora-drift: aurora-drift 18s ease-in-out infinite alternate;
   --animate-fade-up: fade-up 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both;
   --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-wiggle: wiggle 2.4s ease-in-out infinite;
+  --animate-float-slow: float-slow 5s ease-in-out infinite;
+  --animate-spin-slow: spin 14s linear infinite;
 }
 
 :root {
-  --bg: #f6f7f9;
-  --bg-soft: #eef0f4;
+  --bg: #fff7e8;
+  --bg-soft: #ffefcf;
   --surface: #ffffff;
-  --surface-2: #fafbfc;
-  --border: #e3e6ec;
-  --border-strong: #d2d7e0;
-  --text: #0d1117;
-  --text-2: #4a5261;
-  --text-3: #79808f;
-  --accent: #2563eb;
-  --accent-2: #06b6d4;
+  --surface-2: #fffaf0;
+  --border: #0d1117;
+  --border-strong: #0d1117;
+  --text: #1c1917;
+  --text-2: #57534e;
+  --text-3: #a8a29e;
+  --accent: #ff5d8f;
+  --accent-2: #0ea5e9;
+  --sun: #ffc93c;
+  --grass: #4ade80;
+  --sky: #7dd3fc;
   color-scheme: light;
 }
 
 .dark {
-  --bg: #07090d;
-  --bg-soft: #0b0e14;
-  --surface: #0f131a;
-  --surface-2: #131822;
-  --border: #1e2531;
-  --border-strong: #2b3442;
-  --text: #e8ecf3;
-  --text-2: #a3adbd;
-  --text-3: #6f7889;
-  --accent: #60a5fa;
+  --bg: #14101f;
+  --bg-soft: #1e1830;
+  --surface: #221c38;
+  --surface-2: #2a2344;
+  --border: #f5f3ff;
+  --border-strong: #f5f3ff;
+  --text: #faf5ff;
+  --text-2: #c4b5fd;
+  --text-3: #8b7bb8;
+  --accent: #ff8fab;
   --accent-2: #22d3ee;
+  --sun: #fde047;
+  --grass: #86efac;
+  --sky: #38bdf8;
   color-scheme: dark;
 }
 
@@ -51,6 +62,50 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-image: radial-gradient(color-mix(in srgb, var(--text) 8%, transparent) 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-hand { font-family: var(--font-hand); }
+
+/* Childish wobbly sticker card */
+.doodle-card {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  box-shadow: 5px 6px 0 var(--border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.doodle-card:nth-child(even) {
+  border-radius: 18px 255px 18px 225px / 225px 18px 255px 18px;
+}
+.doodle-card:hover {
+  transform: translate(-1px, -2px) rotate(-0.3deg);
+  box-shadow: 7px 8px 0 var(--border);
+}
+
+.doodle-btn {
+  border: 3px solid var(--border);
+  border-radius: 225px 18px 255px 18px / 18px 255px 18px 225px;
+  box-shadow: 4px 4px 0 var(--border);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.doodle-btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--border); }
+.doodle-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--border); }
+
+.doodle-input {
+  border: 3px solid var(--border);
+  border-radius: 18px 225px 18px 255px / 255px 18px 225px 18px;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,0.06);
+}
+
+.doodle-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 5 Q 10 0 20 5 T 40 5' fill='none' stroke='%23ff5d8f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 40px 8px;
+  padding-bottom: 10px;
 }
 
 ::selection {
@@ -68,6 +123,11 @@ body {
 @keyframes aurora-drift {
   from { transform: translate3d(-2%, 0, 0) scale(1); }
   to { transform: translate3d(2%, 2%, 0) scale(1.08); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
 }
 
 @keyframes fade-up {
