@@ -3,7 +3,7 @@ import { fetchCurrentWeather, WeatherApiError } from '../services/weatherApi'
 
 const HISTORY_KEY = 'zephyr-history'
 const FAVORITES_KEY = 'zephyr-favorites'
-const MIN_INTERVAL_MS = 1500
+const MIN_INTERVAL_MS = 4000
 const CACHE_TTL_MS = 5 * 60 * 1000
 
 function readJson(key, fallback) {
@@ -59,8 +59,9 @@ export function useWeather() {
       return
     }
     if (now - lastCallRef.current < MIN_INTERVAL_MS) {
+      const wait = Math.ceil((MIN_INTERVAL_MS - (now - lastCallRef.current)) / 1000)
       setError(
-        new WeatherApiError('Whoa, speedy artist! Wait a second between drawings — the free sky is rate-limited.', { kind: 'limit' }),
+        new WeatherApiError(`Whoa, speedy artist! The free sky allows ~1 drawing per few seconds. Wait ${wait}s, then retry.`, { kind: 'limit' }),
       )
       return
     }
